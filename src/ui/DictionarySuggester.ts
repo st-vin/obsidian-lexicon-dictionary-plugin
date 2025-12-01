@@ -23,7 +23,7 @@ import {
       this.dictionaryService = dictionaryService;
       this.vocabularyManager = vocabularyManager;
       this.renderTemplate = renderTemplate;
-      this.setPlaceholder('type word to lookup in WordNet');
+      this.setPlaceholder('Type a word to look up in WordNet');
     }
   
     openWithPrefill(term: string): void {
@@ -33,7 +33,9 @@ import {
         this.inputEl.value = term;
         try {
           this.inputEl.setSelectionRange(0, term.length);
-        } catch {}
+        } catch (error) {
+          console.debug('Failed to set selection range for prefilled term', error);
+        }
         this.inputEl.dispatchEvent(new Event('input'));
       }, 10);
     }
@@ -52,8 +54,8 @@ import {
       const line = editor.getLine(cursor.line) || '';
       const left = line.slice(0, cursor.ch);
       const right = line.slice(cursor.ch);
-      const leftWord = (left.match(/[A-Za-z'\-]+$/) || [''])[0];
-      const rightWord = (right.match(/^[A-Za-z'\-]+/) || [''])[0];
+      const leftWord = (left.match(/[A-Za-z'-]+$/) || [''])[0];
+      const rightWord = (right.match(/^[A-Za-z'-]+/) || [''])[0];
       
       return (leftWord + rightWord).trim();
     }
@@ -67,7 +69,9 @@ import {
           this.inputEl.value = searchTerm;
           try {
             this.inputEl.setSelectionRange(0, searchTerm.length);
-          } catch {}
+          } catch (error) {
+            console.debug('Failed to set selection range for derived term', error);
+          }
         }
       } else {
         searchTerm = this.inputEl.value.trim();
@@ -98,7 +102,7 @@ import {
       });
     }
   
-    onChooseSuggestion(item: DictionaryItem, evt: MouseEvent | KeyboardEvent): void {
+    onChooseItem(item: DictionaryItem, evt: MouseEvent | KeyboardEvent): void {
       const currentView = this.app.workspace.getActiveViewOfType(MarkdownView);
       
       if (currentView && currentView.getMode() === 'source') {

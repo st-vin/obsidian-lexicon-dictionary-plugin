@@ -1,5 +1,4 @@
-import { App, PluginSettingTab, Setting } from 'obsidian';
-import { WordNetSettings } from '../types';
+import { App, PluginSettingTab, Setting, TextAreaComponent } from 'obsidian';
 import { DEFAULT_SETTINGS } from '../utils/constants';
 import WordNetPlugin from '../main';
 
@@ -39,7 +38,7 @@ export class WordNetSettingTab extends PluginSettingTab {
       });
 
     // Template for definition insertion
-    let templateTextArea: any;
+    let templateTextArea: TextAreaComponent;
     new Setting(containerEl)
       .setName('Template for inserting a definition')
       .setDesc(

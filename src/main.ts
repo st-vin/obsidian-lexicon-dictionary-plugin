@@ -17,13 +17,13 @@ export default class WordNetPlugin extends Plugin {
   private flashcardIntervalHandle: number | null = null;
 
   async onload() {
-    console.log('loading WordNet plugin');
+    console.debug('loading WordNet plugin');
     
     // Load settings
     await this.loadSettings();
     
     // Initialize services
-    this.dictionaryService = new DictionaryService(this.app, this.manifest.dir);
+    this.dictionaryService = new DictionaryService(this.app, this.manifest.dir ?? '');
     this.vocabularyManager = new VocabularyManager(this.app, this.settings);
     
     // Initialize dictionary service
@@ -57,7 +57,7 @@ export default class WordNetPlugin extends Plugin {
   }
 
   onunload() {
-    console.log('unloading WordNet plugin');
+    console.debug('unloading WordNet plugin');
     
     // Clear flashcard interval
     if (this.flashcardIntervalHandle) {
@@ -80,13 +80,9 @@ export default class WordNetPlugin extends Plugin {
   }
 
   configureRibbonCommand() {
-    this.ribbonIcon = this.addRibbonIcon(
-      'book-open-check',
-      'WordNet Dictionary',
-      async () => {
-        this.openDictionarySuggester();
-      }
-    );
+    this.ribbonIcon = this.addRibbonIcon('book-open-check', 'WordNet dictionary', () => {
+      this.openDictionarySuggester();
+    });
   }
 
   configureFlashcardInterval() {
@@ -100,7 +96,7 @@ export default class WordNetPlugin extends Plugin {
     if (this.settings.flashcardAutoPopupsEnabled) {
       const minutes = Math.max(1, this.settings.flashcardIntervalMinutes || 60);
       this.flashcardIntervalHandle = window.setInterval(() => {
-        this.openFlashcard();
+        void this.openFlashcard();
       }, minutes * 60 * 1000);
     }
   }

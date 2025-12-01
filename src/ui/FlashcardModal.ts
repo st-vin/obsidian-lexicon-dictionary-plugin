@@ -3,7 +3,7 @@ import { Modal, App } from 'obsidian';
 export class FlashcardModal extends Modal {
   private term: string;
   private definition: string;
-  private onAgainCallback?: () => void;
+  private onAgainCallback?: () => Promise<void> | void;
 
   constructor(
     app: App, 
@@ -40,13 +40,17 @@ export class FlashcardModal extends Modal {
     const goodBtn = controls.createEl('button', { text: 'Good' });
     
     revealBtn.addEventListener('click', () => {
-      def.toggleClass('is-hidden');
+      const shouldHide = def.hasClass('is-hidden');
+      def.toggleClass('is-hidden', !shouldHide);
     });
     
     againBtn.addEventListener('click', () => {
       this.close();
       if (this.onAgainCallback) {
-        setTimeout(() => this.onAgainCallback!(), 5000);
+        const callback = this.onAgainCallback;
+        setTimeout(() => {
+          void callback();
+        }, 5000);
       }
     });
     

@@ -50,7 +50,7 @@ export class VocabularyManager {
       if (line.length === 0) continue;
 
       // Single-line bullet: - **term** — definition
-      let m = line.match(/^\-\s+\*\*(.+?)\*\*\s*[—-]\s*(.+)$/);
+      let m = line.match(/^-\s+\*\*(.+?)\*\*\s*[—-]\s*(.+)$/);
       if (m) {
         entries.push({ term: m[1], definition: m[2] });
         continue;
