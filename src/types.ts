@@ -1,6 +1,6 @@
-// Type definitions for the WordNet plugin
+// Type definitions for the Lexicon dictionary plugin
 
-export interface WordNetSettings {
+export interface LexiconSettings {
     enableRibbon: boolean;
     insertTemplate: string;
     vocabFolderPath: string;

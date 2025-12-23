@@ -1,15 +1,16 @@
+/* global window, console */
 import { Plugin, Notice } from 'obsidian';
-import { WordNetSettings } from './types';
+import { LexiconSettings } from './types';
 import { DEFAULT_SETTINGS } from './utils/constants';
-import { WordNetSettingTab } from './ui/SettingsTab';
+import { LexiconSettingTab } from './ui/SettingsTab';
 import { DictionarySuggester } from './ui/DictionarySuggester';
 import { FlashcardModal } from './ui/FlashcardModal';
 import { VocabularyManager } from './services/VocabularyManager';
 import { DictionaryService } from './services/DictionaryService';
 import { registerCommands, registerContextMenu } from './commands';
 
-export default class WordNetPlugin extends Plugin {
-  settings: WordNetSettings;
+export default class LexiconDictionaryPlugin extends Plugin {
+  settings: LexiconSettings;
   ribbonIcon: HTMLElement | null = null;
   private dictionarySuggester: DictionarySuggester;
   private vocabularyManager: VocabularyManager;
@@ -17,7 +18,7 @@ export default class WordNetPlugin extends Plugin {
   private flashcardIntervalHandle: number | null = null;
 
   async onload() {
-    console.debug('loading WordNet plugin');
+    console.debug('loading Lexicon dictionary plugin');
     
     // Load settings
     await this.loadSettings();
@@ -41,7 +42,7 @@ export default class WordNetPlugin extends Plugin {
     );
     
     // Add settings tab
-    this.addSettingTab(new WordNetSettingTab(this.app, this));
+    this.addSettingTab(new LexiconSettingTab(this.app, this));
     
     // Configure ribbon if enabled
     if (this.settings.enableRibbon) {
@@ -57,7 +58,7 @@ export default class WordNetPlugin extends Plugin {
   }
 
   onunload() {
-    console.debug('unloading WordNet plugin');
+    console.debug('unloading Lexicon dictionary plugin');
     
     // Clear flashcard interval
     if (this.flashcardIntervalHandle) {
@@ -67,7 +68,8 @@ export default class WordNetPlugin extends Plugin {
   }
 
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const stored = (await this.loadData()) as Partial<LexiconSettings> | null;
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, stored ?? {});
   }
 
   async saveSettings() {
@@ -80,7 +82,7 @@ export default class WordNetPlugin extends Plugin {
   }
 
   configureRibbonCommand() {
-    this.ribbonIcon = this.addRibbonIcon('book-open-check', 'WordNet dictionary', () => {
+    this.ribbonIcon = this.addRibbonIcon('book-open-check', 'Lexicon dictionary', () => {
       this.openDictionarySuggester();
     });
   }
@@ -114,7 +116,7 @@ export default class WordNetPlugin extends Plugin {
       this.app, 
       item.term, 
       item.definition,
-      () => this.openFlashcard()
+      () => void this.openFlashcard()
     ).open();
   }
 

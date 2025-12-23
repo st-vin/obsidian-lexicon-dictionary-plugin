@@ -1,3 +1,4 @@
+/* global setTimeout */
 import { Modal, App } from 'obsidian';
 
 export class FlashcardModal extends Modal {

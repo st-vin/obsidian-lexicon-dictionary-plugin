@@ -1,10 +1,10 @@
 import { App, Notice } from 'obsidian';
-import { WordNetSettings, VocabularyEntry } from '../types';
+import { LexiconSettings, VocabularyEntry } from '../types';
 
 export class VocabularyManager {
   constructor(
     private app: App,
-    private settings: WordNetSettings
+    private settings: LexiconSettings
   ) {}
 
   async ensureVocabFile(): Promise<string> {

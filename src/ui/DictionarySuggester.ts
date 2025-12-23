@@ -1,3 +1,4 @@
+/* global setTimeout, console */
 import { 
     FuzzySuggestModal, 
     Notice, 
@@ -23,7 +24,7 @@ import {
       this.dictionaryService = dictionaryService;
       this.vocabularyManager = vocabularyManager;
       this.renderTemplate = renderTemplate;
-      this.setPlaceholder('Type a word to look up in WordNet');
+      this.setPlaceholder('Type a word to look up in lexicon');
     }
   
     openWithPrefill(term: string): void {
@@ -95,7 +96,7 @@ import {
       saveBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        this.vocabularyManager.addToVocabulary(
+        void this.vocabularyManager.addToVocabulary(
           item.item.Term, 
           item.item.Definition
         );

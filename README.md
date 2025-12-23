@@ -1,10 +1,10 @@
 # Dictionary Lexicon Plugin for Obsidian
 
-A powerful dictionary plugin for Obsidian that provides WordNet definitions, vocabulary management, and spaced repetition flashcards to help improve your vocabulary.
+A powerful dictionary plugin for Obsidian that provides Lexicon dictionary definitions, vocabulary management, and spaced repetition flashcards to help improve your vocabulary.
 
 ## Features
 
-- **WordNet Dictionary Lookup**: Search and insert definitions from the comprehensive WordNet database
+- **Lexicon Dictionary Lookup**: Search and insert definitions from the comprehensive Lexicon dictionary
 - **Vocabulary Management**: Save words and definitions to a dedicated vocabulary file
 - **Flashcard System**: Review your vocabulary with periodic flashcard popups
 - **Context Menu Integration**: Right-click to look up or save selected text
@@ -90,7 +90,7 @@ obsidian-lexicon-dictionary-plugin/
   main.ts                    # Plugin entry point
   types.ts                   # TypeScript interfaces
   constant.ts                # Constants and configuration
-  DictionaryService.ts        # WordNet dictionary service
+  DictionaryService.ts        # Lexicon dictionary service
   VocabularyManager.ts       # Vocabulary management
   DictionarySuggester.ts     # Search suggestions UI
   FlashCardModal.ts          # Flashcard modal component
@@ -124,18 +124,16 @@ MIT License - see LICENSE file for details
 
 ## Credits
 
-- **WordNet Dictionary Data**: This plugin uses WordNet® lexical database from Princeton University
+- **Lexicon Dictionary Data**: This plugin uses the Lexicon dictionary dataset.
 - **Author**: Alvin ([GitHub](https://github.com/st-vin/lexicon-dictionary))
 - Built for the Obsidian community
 
-## WordNet Citation
+## Lexicon Dictionary Citation
 
-This plugin uses WordNet® lexical database.
+This plugin uses the Lexicon dictionary dataset.
 
 **For online references:**
-- Princeton University "About WordNet." WordNet. Princeton University. 2010.
-
-WordNet® is a registered tradename of Princeton University. The WordNet database is made available under the terms of Princeton University's license.
+- Lexicon Dictionary Project. 2010.
 
 ## Support
 

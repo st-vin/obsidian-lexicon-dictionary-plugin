@@ -1,11 +1,11 @@
 import { App, PluginSettingTab, Setting, TextAreaComponent } from 'obsidian';
 import { DEFAULT_SETTINGS } from '../utils/constants';
-import WordNetPlugin from '../main';
+import LexiconDictionaryPlugin from '../main';
 
-export class WordNetSettingTab extends PluginSettingTab {
-  plugin: WordNetPlugin;
+export class LexiconSettingTab extends PluginSettingTab {
+  plugin: LexiconDictionaryPlugin;
 
-  constructor(app: App, plugin: WordNetPlugin) {
+  constructor(app: App, plugin: LexiconDictionaryPlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
@@ -17,7 +17,7 @@ export class WordNetSettingTab extends PluginSettingTab {
     // Ribbon icon toggle
     new Setting(containerEl)
       .setName('Show ribbon icon')
-      .setDesc('Display a ribbon icon to open the WordNet lookup')
+      .setDesc('Display a ribbon icon to open the lexicon lookup')
       .addToggle(cb => {
         cb.setValue(this.plugin.settings.enableRibbon === true);
         cb.onChange(async value => {
@@ -42,7 +42,7 @@ export class WordNetSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName('Template for inserting a definition')
       .setDesc(
-        'The template used for inserting a WordNet definition. ' +
+        'The template used for inserting a Lexicon definition. ' +
         'Use {term} for the term looked up and {definition} for the definition of that term.'
       )
       .addExtraButton(b => {

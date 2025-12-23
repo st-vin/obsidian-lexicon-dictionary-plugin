@@ -1,9 +1,10 @@
+/* global navigator */
 import { App, Notice, request } from 'obsidian';
 import { DictionaryItem } from '../types';
-import { WORDNET_DICT_URL } from '../utils/constants';
+import { LEXICON_DICT_URL } from '../utils/constants';
 
 export class DictionaryService {
-  private wordNet: DictionaryItem[] | null = null;
+  private lexiconDictionary: DictionaryItem[] | null = null;
   private customDict: DictionaryItem[] | null = null;
   private manifestDir: string;
 
@@ -15,30 +16,30 @@ export class DictionaryService {
   }
 
   async initialize(): Promise<void> {
-    const pathWordNetJson = `${this.manifestDir}/dict-WordNet.json`;
+    const pathLexiconJson = `${this.manifestDir}/dict-Lexicon.json`;
     const adapter = this.app.vault.adapter;
 
-    if (await adapter.exists(pathWordNetJson)) {
-      const fileWordNet = await adapter.read(pathWordNetJson);
-      this.wordNet = JSON.parse(fileWordNet);
+    if (await adapter.exists(pathLexiconJson)) {
+      const fileLexicon = await adapter.read(pathLexiconJson);
+      this.lexiconDictionary = JSON.parse(fileLexicon) as DictionaryItem[];
     } else {
-      await this.downloadWordNet(pathWordNetJson);
+      await this.downloadLexiconDictionary(pathLexiconJson);
     }
 
     // Load custom dictionary if exists
     const customDictPath = `${this.manifestDir}/dict-MyDict.json`;
     if (await adapter.exists(customDictPath)) {
       const fileCustomDict = await adapter.read(customDictPath);
-      this.customDict = JSON.parse(fileCustomDict);
+      this.customDict = JSON.parse(fileCustomDict) as DictionaryItem[];
     }
   }
 
-  private async downloadWordNet(pathWordNetJson: string): Promise<void> {
+  private async downloadLexiconDictionary(pathLexiconJson: string): Promise<void> {
     const adapter = this.app.vault.adapter;
     
     if (!navigator.onLine) {
       new Notice(
-        "You do not have an internet connection, and the WordNet dictionary cannot be downloaded. " +
+        "You do not have an internet connection, and the Lexicon dictionary cannot be downloaded. " +
         "Please restore your internet connection and restart Obsidian",
         30000
       );
@@ -46,26 +47,26 @@ export class DictionaryService {
     }
 
     const downloadMessage = new Notice(
-      "WordNet dictionary is being downloaded, this may take a few minutes. " +
+      "Lexicon dictionary is being downloaded, this may take a few minutes. " +
       "This message will disappear when the process is complete.",
       0
     );
 
     try {
-      const response = await request({ url: WORDNET_DICT_URL });
+      const response = await request({ url: LEXICON_DICT_URL });
       downloadMessage.hide();
 
       if (response === "Not Found" || response === `{"error":"Not Found"}`) {
         new Notice(
-          "The WordNet dictionary file is not currently available for download. " +
-          "Please try again later or contact the developer on Twitter: @TfThacker for support.",
+          "The Lexicon dictionary file is not currently available for download. " +
+          "Please try again later.",
           30000
         );
         throw new Error("Dictionary not found");
       }
 
-      this.wordNet = JSON.parse(response);
-      await adapter.write(pathWordNetJson, JSON.stringify(this.wordNet));
+      this.lexiconDictionary = JSON.parse(response) as DictionaryItem[];
+      await adapter.write(pathLexiconJson, JSON.stringify(this.lexiconDictionary));
     } catch (e) {
       downloadMessage.hide();
       new Notice(`An error has occurred with the download, please try again later: ${e}`);
@@ -89,13 +90,13 @@ export class DictionaryService {
       }
     }
 
-    // Then search WordNet
+    // Then search Lexicon dictionary
     countOfFoundMatches = 0;
-    if (this.wordNet) {
-      for (let i = 0; i < this.wordNet.length && countOfFoundMatches < 20; i++) {
-        const item = this.wordNet[i];
+    if (this.lexiconDictionary) {
+      for (let i = 0; i < this.lexiconDictionary.length && countOfFoundMatches < 20; i++) {
+        const item = this.lexiconDictionary[i];
         if (item.SearchTerm.startsWith(searchTerm)) {
-          results.push(this.wordNet[i]);
+          results.push(this.lexiconDictionary[i]);
           countOfFoundMatches++;
         }
       }
@@ -105,6 +106,6 @@ export class DictionaryService {
   }
 
   isInitialized(): boolean {
-    return this.wordNet !== null;
+    return this.lexiconDictionary !== null;
   }
 }

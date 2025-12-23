@@ -1,4 +1,4 @@
-import { Editor, MarkdownView, Menu, MenuItem, Plugin } from 'obsidian';
+import { MarkdownView, MenuItem, Plugin } from 'obsidian';
 
 type LexiconPlugin = Plugin & {
   openDictionarySuggester: () => void;
@@ -9,7 +9,7 @@ type LexiconPlugin = Plugin & {
 
 export function registerCommands(plugin: LexiconPlugin) {
   plugin.addCommand({
-    id: 'open-wordnet-suggestor',
+    id: 'open-lexicon-suggestor',
     name: 'Look up a word',
     callback: () => {
       plugin.openDictionarySuggester();
