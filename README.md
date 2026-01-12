@@ -4,7 +4,7 @@ A powerful dictionary plugin for Obsidian that provides Lexicon dictionary defin
 
 ## Features
 
-- **Lexicon Dictionary Lookup**: Search and insert definitions from the comprehensive Lexicon dictionary
+- **Wordnet Dictionary Lookup**: Search and insert definitions from the comprehensive Wordnet dictionary
 - **Vocabulary Management**: Save words and definitions to a dedicated vocabulary file
 - **Flashcard System**: Review your vocabulary with periodic flashcard popups
 - **Context Menu Integration**: Right-click to look up or save selected text
@@ -124,16 +124,16 @@ MIT License - see LICENSE file for details
 
 ## Credits
 
-- **Lexicon Dictionary Data**: This plugin uses the Lexicon dictionary dataset.
+- **Wordnet Dictionary Data**: This plugin uses the Wordnet dictionary dataset.
 - **Author**: Alvin ([GitHub](https://github.com/st-vin/lexicon-dictionary))
 - Built for the Obsidian community
 
-## Lexicon Dictionary Citation
+## Wordnet Dictionary Citation
 
-This plugin uses the Lexicon dictionary dataset.
+This plugin uses the Wordnet dictionary dataset.
 
 **For online references:**
-- Lexicon Dictionary Project. 2010.
+- Wordnet Dictionary Project. 2010.
 
 ## Support
 
