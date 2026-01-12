@@ -1,4 +1,3 @@
-/* global window, console */
 import { Plugin, Notice } from 'obsidian';
 import { LexiconSettings } from './types';
 import { DEFAULT_SETTINGS } from './utils/constants';

@@ -1,4 +1,3 @@
-/* global setTimeout, console */
 import { 
     FuzzySuggestModal, 
     Notice, 

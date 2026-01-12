@@ -1,4 +1,3 @@
-/* global navigator */
 import { App, Notice, request } from 'obsidian';
 import { DictionaryItem } from '../types';
 import { LEXICON_DICT_URL } from '../utils/constants';
