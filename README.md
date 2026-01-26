@@ -45,6 +45,9 @@ Add these images under `docs/screenshots/` (or your preferred path), then update
 3. Reload Obsidian
 4. Enable the plugin in Settings → Community Plugins
 
+### Important Note
+**This plugin downloads a dictionary JSON file (>5MB) from an external source when first initialized.** The dictionary file is downloaded to your plugin directory and cached locally. This download only occurs once when the plugin is first enabled, or if the dictionary file is missing. An internet connection is required for the initial download.
+
 ## Usage
 
 ### Looking Up Words
@@ -64,9 +67,6 @@ Add these images under `docs/screenshots/` (or your preferred path), then update
 - Review saved vocabulary with spaced repetition
 
 ## Settings
-
-### Display Options
-- **Show ribbon icon**: Toggle the dictionary icon in the left ribbon
 
 ### Templates
 - **Definition template**: Customize how definitions are inserted

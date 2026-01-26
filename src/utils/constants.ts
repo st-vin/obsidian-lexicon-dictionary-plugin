@@ -1,7 +1,6 @@
 import { LexiconSettings } from '../types';
 
 export const DEFAULT_SETTINGS: LexiconSettings = {
-  enableRibbon: true,
   insertTemplate: "**{term}**\n{definition}\n",
   vocabFolderPath: "Vocabulary",
   vocabFileName: "lexicon.md",
@@ -10,4 +9,4 @@ export const DEFAULT_SETTINGS: LexiconSettings = {
 };
 
 export const LEXICON_DICT_URL = 
-"https://github.com/st-vin/obsidian-lexicon-dictionary-plugin/releases/download/1.0.3/dict-Lexicon.json";
+"https://github.com/st-vin/obsidian-lexicon-dictionary-plugin/releases/download/1.0.4/dict-Lexicon.json";

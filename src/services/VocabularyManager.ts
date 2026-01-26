@@ -1,4 +1,4 @@
-import { App, Notice } from 'obsidian';
+import { App, Notice, normalizePath, TFile } from 'obsidian';
 import { LexiconSettings, VocabularyEntry } from '../types';
 
 export class VocabularyManager {
@@ -7,41 +7,46 @@ export class VocabularyManager {
     private settings: LexiconSettings
   ) {}
 
-  async ensureVocabFile(): Promise<string> {
-    const adapter = this.app.vault.adapter;
-    const folderPath = this.settings.vocabFolderPath;
+  async ensureVocabFile(): Promise<TFile> {
+    const folderPath = normalizePath(this.settings.vocabFolderPath);
     const fileName = this.settings.vocabFileName;
-    const fullFolder = folderPath.replace(/\\/g, "/");
-    const fullPath = `${fullFolder}/${fileName}`;
+    const fullPath = normalizePath(`${folderPath}/${fileName}`);
 
-    if (!(await adapter.exists(fullFolder))) {
-      await adapter.mkdir(fullFolder);
+    // Ensure folder exists using Vault API
+    const folder = this.app.vault.getAbstractFileByPath(folderPath);
+    if (!folder) {
+      await this.app.vault.createFolder(folderPath);
     }
 
-    if (!(await adapter.exists(fullPath))) {
+    // Check if file exists, create if not
+    let file = this.app.vault.getAbstractFileByPath(fullPath);
+    if (!file || !(file instanceof TFile)) {
       const header = `# Vocabulary\n\n`;
-      await adapter.write(fullPath, header);
+      file = await this.app.vault.create(fullPath, header);
     }
 
-    return fullPath;
+    // TypeScript narrowing: file is guaranteed to be TFile at this point
+    if (!(file instanceof TFile)) {
+      throw new Error('Failed to create vocabulary file');
+    }
+
+    return file;
   }
 
   async addToVocabulary(term: string, definition: string): Promise<void> {
-    const filePath = await this.ensureVocabFile();
-    const adapter = this.app.vault.adapter;
+    const file = await this.ensureVocabFile();
     const timestamp = new Date().toISOString().split("T")[0];
     const entry = `- **${term}** — ${definition}  _(added ${timestamp})_\n`;
     
-    const current = await adapter.read(filePath);
-    await adapter.write(filePath, current + entry);
+    // Use Vault.append to modify file in background
+    await this.app.vault.append(file, entry);
     
     new Notice(`Added to vocabulary: ${term}`);
   }
 
   async getVocabularyEntries(): Promise<VocabularyEntry[]> {
-    const adapter = this.app.vault.adapter;
-    const filePath = await this.ensureVocabFile();
-    const content = await adapter.read(filePath);
+    const file = await this.ensureVocabFile();
+    const content = await this.app.vault.read(file);
     const rawLines = content.split(/\r?\n/);
     const entries: VocabularyEntry[] = [];
 

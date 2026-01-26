@@ -1,6 +1,7 @@
 import { App, PluginSettingTab, Setting, TextAreaComponent } from 'obsidian';
 import { DEFAULT_SETTINGS } from '../utils/constants';
 import LexiconDictionaryPlugin from '../main';
+import { FolderSuggest } from './FolderSuggest';
 
 export class LexiconSettingTab extends PluginSettingTab {
   plugin: LexiconDictionaryPlugin;
@@ -13,29 +14,6 @@ export class LexiconSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     containerEl.empty();
-
-    // Ribbon icon toggle
-    new Setting(containerEl)
-      .setName('Show ribbon icon')
-      .setDesc('Display a ribbon icon to open the lexicon lookup')
-      .addToggle(cb => {
-        cb.setValue(this.plugin.settings.enableRibbon === true);
-        cb.onChange(async value => {
-          this.plugin.settings.enableRibbon = value;
-          await this.plugin.saveSettings();
-          
-          if (value) {
-            if (!this.plugin.ribbonIcon) {
-              this.plugin.configureRibbonCommand();
-            }
-          } else {
-            if (this.plugin.ribbonIcon) {
-              this.plugin.ribbonIcon.remove();
-              this.plugin.ribbonIcon = null;
-            }
-          }
-        });
-      });
 
     // Template for definition insertion
     let templateTextArea: TextAreaComponent;
@@ -74,6 +52,7 @@ export class LexiconSettingTab extends PluginSettingTab {
       .setDesc('Folder where the vocabulary file will be stored')
       .addText(cb => {
         cb.setValue(this.plugin.settings.vocabFolderPath);
+        new FolderSuggest(this.app, cb.inputEl);
         cb.onChange(async value => {
           const newValue = value.trim().length === 0 
             ? DEFAULT_SETTINGS.vocabFolderPath 
@@ -107,21 +86,26 @@ export class LexiconSettingTab extends PluginSettingTab {
           this.plugin.settings.flashcardAutoPopupsEnabled = value;
           await this.plugin.saveSettings();
           this.plugin.configureFlashcardInterval();
+          // Re-run display to show/hide related settings
+          this.display();
         });
       });
 
-    new Setting(containerEl)
-      .setName('Flashcard interval (minutes)')
-      .setDesc('How often to show a flashcard when enabled')
-      .addSlider(cb => {
-        cb.setLimits(5, 240, 5)
-          .setValue(this.plugin.settings.flashcardIntervalMinutes)
-          .setDynamicTooltip();
-        cb.onChange(async value => {
-          this.plugin.settings.flashcardIntervalMinutes = value;
-          await this.plugin.saveSettings();
-          this.plugin.configureFlashcardInterval();
+    // Only show interval setting when flashcard popups are enabled
+    if (this.plugin.settings.flashcardAutoPopupsEnabled) {
+      new Setting(containerEl)
+        .setName('Flashcard interval (minutes)')
+        .setDesc('How often to show a flashcard when enabled')
+        .addSlider(cb => {
+          cb.setLimits(5, 240, 5)
+            .setValue(this.plugin.settings.flashcardIntervalMinutes)
+            .setDynamicTooltip();
+          cb.onChange(async value => {
+            this.plugin.settings.flashcardIntervalMinutes = value;
+            await this.plugin.saveSettings();
+            this.plugin.configureFlashcardInterval();
+          });
         });
-      });
+    }
   }
 }

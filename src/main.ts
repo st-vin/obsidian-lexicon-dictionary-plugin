@@ -43,10 +43,8 @@ export default class LexiconDictionaryPlugin extends Plugin {
     // Add settings tab
     this.addSettingTab(new LexiconSettingTab(this.app, this));
     
-    // Configure ribbon if enabled
-    if (this.settings.enableRibbon) {
-      this.configureRibbonCommand();
-    }
+    // Configure ribbon (users can customize via Obsidian settings)
+    this.configureRibbonCommand();
     
     // Register commands and context menu
     registerCommands(this);
@@ -58,12 +56,6 @@ export default class LexiconDictionaryPlugin extends Plugin {
 
   onunload() {
     console.debug('unloading Lexicon dictionary plugin');
-    
-    // Clear flashcard interval
-    if (this.flashcardIntervalHandle) {
-      window.clearInterval(this.flashcardIntervalHandle);
-      this.flashcardIntervalHandle = null;
-    }
   }
 
   async loadSettings() {
@@ -87,18 +79,21 @@ export default class LexiconDictionaryPlugin extends Plugin {
   }
 
   configureFlashcardInterval() {
-    // Clear existing interval
-    if (this.flashcardIntervalHandle) {
+    // Clear existing interval if any
+    if (this.flashcardIntervalHandle !== null) {
       window.clearInterval(this.flashcardIntervalHandle);
       this.flashcardIntervalHandle = null;
     }
-
+    
     // Set new interval if enabled
     if (this.settings.flashcardAutoPopupsEnabled) {
       const minutes = Math.max(1, this.settings.flashcardIntervalMinutes || 60);
-      this.flashcardIntervalHandle = window.setInterval(() => {
+      const intervalId = window.setInterval(() => {
         void this.openFlashcard();
       }, minutes * 60 * 1000);
+      
+      // Register interval so Obsidian can clean it up on unload
+      this.flashcardIntervalHandle = this.registerInterval(intervalId);
     }
   }
 

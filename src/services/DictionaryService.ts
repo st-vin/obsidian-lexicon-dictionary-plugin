@@ -1,4 +1,4 @@
-import { App, Notice, request } from 'obsidian';
+import { App, Notice, request, normalizePath } from 'obsidian';
 import { DictionaryItem } from '../types';
 import { LEXICON_DICT_URL } from '../utils/constants';
 
@@ -11,11 +11,11 @@ export class DictionaryService {
     private app: App,
     manifestDir: string
   ) {
-    this.manifestDir = manifestDir;
+    this.manifestDir = normalizePath(manifestDir);
   }
 
   async initialize(): Promise<void> {
-    const pathLexiconJson = `${this.manifestDir}/dict-Lexicon.json`;
+    const pathLexiconJson = normalizePath(`${this.manifestDir}/dict-Lexicon.json`);
     const adapter = this.app.vault.adapter;
 
     if (await adapter.exists(pathLexiconJson)) {
@@ -26,7 +26,7 @@ export class DictionaryService {
     }
 
     // Load custom dictionary if exists
-    const customDictPath = `${this.manifestDir}/dict-MyDict.json`;
+    const customDictPath = normalizePath(`${this.manifestDir}/dict-MyDict.json`);
     if (await adapter.exists(customDictPath)) {
       const fileCustomDict = await adapter.read(customDictPath);
       this.customDict = JSON.parse(fileCustomDict) as DictionaryItem[];

@@ -1,7 +1,6 @@
 // Type definitions for the Lexicon dictionary plugin
 
 export interface LexiconSettings {
-    enableRibbon: boolean;
     insertTemplate: string;
     vocabFolderPath: string;
     vocabFileName: string;
