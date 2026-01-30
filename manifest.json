@@ -1,8 +1,8 @@
 {
 	"id": "lexicon-dictionary",
 	"name": "Dictionary Lexicon",
-	"version": "1.0.4",
-	"minAppVersion": "1.0.0",
+	"version": "1.0.5",
+	"minAppVersion": "1.11.5",
 	"description": "Look up words and improve vocabulary by using flash card style cards.",
 	"author": "Alvin",
 	"fundingUrl": "https://buymeacoffee.com/st.vin",

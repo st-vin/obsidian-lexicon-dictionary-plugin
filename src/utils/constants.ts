@@ -9,4 +9,4 @@ export const DEFAULT_SETTINGS: LexiconSettings = {
 };
 
 export const LEXICON_DICT_URL = 
-"https://github.com/st-vin/obsidian-lexicon-dictionary-plugin/releases/download/1.0.4/dict-Lexicon.json";
+"https://github.com/st-vin/obsidian-lexicon-dictionary-plugin/releases/download/1.0.5/dict-Lexicon.json";

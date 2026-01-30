@@ -1,6 +1,6 @@
 {
     "name": "obsidian-lexicon-dictionary-plugin",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "description": "Improve vocabulary by using flash card style cards",
     "main": "main.js",
     "scripts": {
@@ -17,7 +17,7 @@
         "lexicon",
         "vocabulary"
     ],
-    "author": "",
+    "author": "Alvin",
     "license": "MIT",
     "devDependencies": {
         "@eslint/js": "^9.15.0",
