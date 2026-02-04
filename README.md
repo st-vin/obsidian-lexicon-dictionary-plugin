@@ -12,8 +12,6 @@ A powerful dictionary plugin for Obsidian that provides Lexicon dictionary defin
 
 ## Screenshots
 
-Add these images under `docs/screenshots/` (or your preferred path), then update the links below:
-
 - **Overview**
   
   ![Plugin overview](docs/screenshots/flashcard.jpg)
