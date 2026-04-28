@@ -6,6 +6,7 @@ A powerful dictionary plugin for Obsidian that provides Lexicon dictionary defin
 
 - **Wordnet Dictionary Lookup**: Search and insert definitions from the comprehensive Wordnet dictionary
 - **Vocabulary Management**: Save words and definitions to a dedicated vocabulary file
+- **Save to Footer (Glossary)**: Insert looked-up words directly into a glossary section at the end of your current note
 - **Flashcard System**: Review your vocabulary with periodic flashcard popups
 - **Context Menu Integration**: Right-click to look up or save selected text
 - **Customizable Templates**: Define how definitions are inserted into your notes
@@ -27,6 +28,14 @@ A powerful dictionary plugin for Obsidian that provides Lexicon dictionary defin
 - **Settings** (display, templates, vocabulary, flashcards)
   
   ![Settings](docs/screenshots/settings.png)
+
+- **Footer Button**
+  
+  ![Footer button placeholder](docs/screenshots/footer-button.png)
+
+- **Glossary Settings**
+  
+  ![Glossary settings placeholder](docs/screenshots/glossary-settings.png)
 
 
 
@@ -64,6 +73,10 @@ A powerful dictionary plugin for Obsidian that provides Lexicon dictionary defin
 - Or manually trigger with "Dictionary Lexicon: Open vocabulary flashcard"
 - Review saved vocabulary with spaced repetition
 
+### Glossary (Save to Footer)
+- Click the **Footer** button in the lookup results to append the definition to the end of your current note.
+- Customize the glossary header (e.g., `## Glossary`) in the plugin settings.
+
 ## Settings
 
 ### Templates
@@ -79,6 +92,10 @@ A powerful dictionary plugin for Obsidian that provides Lexicon dictionary defin
 ### Flashcards
 - **Enable automatic popups**: Show periodic flashcards
 - **Interval**: How often to show flashcards (5-240 minutes)
+
+### Glossary
+- **Glossary section title**: The header used for footer insertions (default: `## Glossary`)
+- **Save to vocabulary file**: Automatically save terms to your main vocabulary list when inserting into the footer
 
 ## Development
 
@@ -134,6 +151,10 @@ This plugin uses the Wordnet dictionary dataset.
 - Wordnet Dictionary Project. 2010.
 
 ## Support
+
+If you find this plugin useful, consider supporting its development:
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/st.vin)
 
 If you encounter issues or have suggestions:
 - Open an issue on [GitHub](https://github.com/st-vin/obsidian-lexicon-dictionary-plugin)

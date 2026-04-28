@@ -107,5 +107,31 @@ export class LexiconSettingTab extends PluginSettingTab {
           });
         });
     }
+
+    // Glossary settings
+    new Setting(containerEl).setName('Glossary').setHeading();
+
+    new Setting(containerEl)
+      .setName('Glossary section title')
+      .setDesc('Header under which footer insertions will be placed (e.g., ## glossary)')
+      .addText(cb => {
+        cb.setPlaceholder('## glossary')
+          .setValue(this.plugin.settings.glossarySectionTitle)
+          .onChange(async value => {
+            this.plugin.settings.glossarySectionTitle = value || DEFAULT_SETTINGS.glossarySectionTitle;
+            await this.plugin.saveSettings();
+          });
+      });
+
+    new Setting(containerEl)
+      .setName('Save to vocabulary file')
+      .setDesc('Also save the term to your vocabulary file when inserting into the footer')
+      .addToggle(cb => {
+        cb.setValue(this.plugin.settings.saveToVocabOnFooterInsert)
+          .onChange(async value => {
+            this.plugin.settings.saveToVocabOnFooterInsert = value;
+            await this.plugin.saveSettings();
+          });
+      });
   }
 }
