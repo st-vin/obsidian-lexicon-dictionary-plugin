@@ -24,6 +24,11 @@
   .wn-suggest-actions button:hover {
     background: var(--interactive-hover);
   }
+
+  .wn-footer-btn {
+    margin-right: auto;
+    margin-left: 0 !important;
+  }
   
   .wn-suggest-actions button:active {
     background: var(--interactive-accent);

@@ -35,6 +35,7 @@ export default class LexiconDictionaryPlugin extends Plugin {
     // Initialize UI components
     this.dictionarySuggester = new DictionarySuggester(
       this.app,
+      this.settings,
       this.dictionaryService,
       this.vocabularyManager,
       (term, definition) => this.renderDefinitionFromTemplate(term, definition)

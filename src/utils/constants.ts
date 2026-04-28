@@ -5,7 +5,9 @@ export const DEFAULT_SETTINGS: LexiconSettings = {
   vocabFolderPath: "Vocabulary",
   vocabFileName: "lexicon.md",
   flashcardAutoPopupsEnabled: false,
-  flashcardIntervalMinutes: 60
+  flashcardIntervalMinutes: 60,
+  glossarySectionTitle: "## Glossary",
+  saveToVocabOnFooterInsert: false
 };
 
 export const LEXICON_DICT_URL = 

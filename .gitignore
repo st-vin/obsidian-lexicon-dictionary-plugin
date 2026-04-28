@@ -62,3 +62,4 @@ dict-MyDict.json
 # pnpm-lock.yaml
 plan.md
 checklist.md
+.agent/

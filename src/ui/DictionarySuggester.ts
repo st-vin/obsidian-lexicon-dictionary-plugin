@@ -4,22 +4,25 @@ import {
     MarkdownView,
     App 
   } from 'obsidian';
-  import { DictionaryItem } from '../types';
+  import { DictionaryItem, LexiconSettings } from '../types';
   import { DictionaryService } from '../services/DictionaryService';
   import { VocabularyManager } from '../services/VocabularyManager';
   
   export class DictionarySuggester extends FuzzySuggestModal<DictionaryItem> {
     private dictionaryService: DictionaryService;
     private vocabularyManager: VocabularyManager;
+    private settings: LexiconSettings;
     private renderTemplate: (term: string, definition: string) => string;
   
     constructor(
       app: App,
+      settings: LexiconSettings,
       dictionaryService: DictionaryService,
       vocabularyManager: VocabularyManager,
       renderTemplate: (term: string, definition: string) => string
     ) {
       super(app);
+      this.settings = settings;
       this.dictionaryService = dictionaryService;
       this.vocabularyManager = vocabularyManager;
       this.renderTemplate = renderTemplate;
@@ -90,6 +93,17 @@ import {
       el.appendText(item.item.Definition);
       
       const actions = el.createDiv({ cls: 'wn-suggest-actions' });
+      
+      const footerBtn = actions.createEl('button', { 
+        text: 'Footer', 
+        cls: 'wn-footer-btn' 
+      });
+      footerBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        void this.insertToFooter(item.item);
+      });
+
       const saveBtn = actions.createEl('button', { text: 'Save' });
       
       saveBtn.addEventListener('click', (e) => {
@@ -100,6 +114,37 @@ import {
           item.item.Definition
         );
       });
+    }
+  
+    private async insertToFooter(item: DictionaryItem): Promise<void> {
+      const currentView = this.app.workspace.getActiveViewOfType(MarkdownView);
+      if (!currentView) {
+        new Notice('No active Markdown editor found');
+        return;
+      }
+
+      const editor = currentView.editor;
+      const content = editor.getValue();
+      const sectionTitle = this.settings.glossarySectionTitle;
+      const definition = this.renderTemplate(item.Term, item.Definition);
+      
+      const lastLine = editor.lineCount() - 1;
+      const lastChar = editor.getLine(lastLine).length;
+
+      if (content.includes(sectionTitle)) {
+        // Append to the end of the file
+        editor.replaceRange('\n' + definition, { line: lastLine, ch: lastChar });
+      } else {
+        // Append section and definition
+        const prefix = content.length > 0 ? (content.endsWith('\n\n') ? '' : (content.endsWith('\n') ? '\n' : '\n\n')) : '';
+        editor.replaceRange(`${prefix}${sectionTitle}\n\n${definition}`, { line: lastLine, ch: lastChar });
+      }
+
+      if (this.settings.saveToVocabOnFooterInsert) {
+        await this.vocabularyManager.addToVocabulary(item.Term, item.Definition);
+      }
+      
+      new Notice(`Added ${item.Term} to glossary`);
     }
   
     onChooseItem(item: DictionaryItem, evt: MouseEvent | KeyboardEvent): void {

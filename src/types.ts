@@ -6,6 +6,8 @@ export interface LexiconSettings {
     vocabFileName: string;
     flashcardAutoPopupsEnabled: boolean;
     flashcardIntervalMinutes: number;
+    glossarySectionTitle: string;
+    saveToVocabOnFooterInsert: boolean;
   }
   
   export interface DictionaryItem {
